@@ -7,159 +7,18 @@
 </head>
 <body>
     <input type="file" id="image_input" accept="image/*">
+    <label for="file_input" class="btn">Select MP3</label>
+    <input type="file" id="file_input" accept=".mp3" style="visibility: hidden;">
     <textarea id="secret_message_input" cols="40" rows="5"></textarea>
     
     <button onclick="add_secret_message(message_to_binary(document.getElementById('secret_message_input').value))">add secret message to image!</button>
+    <button onclick="file_to_binary()">add secret mp3 to image!</button>
     <button onclick="decode_image()">find the secret message in the image!</button>
     <br>
     <p>Secret Message: </p>
     <p id="secret_message_output"></p>
-    <script>
-
-        function error_message_too_long () {
-            console.log("message too long");
-        }
-
-        function message_to_binary(message) {
-            return (
-                Array
-                .from(message)
-                .reduce((acc, char) => acc.concat(char.charCodeAt().toString(2).padStart(16, '0')), [])
-                .join('')
-            );
-        }
-
-        function decode_image() {
-            const input = document.getElementById('image_input');
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            let decoded_text = "";
-
-            const img = new Image();
-            img.onload = function () {
-                canvas.width = img.width;
-                canvas.height = img.height;
-
-                context.drawImage(img, 0, 0);
-
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-
-                
-                let binary_data = "";
-                let j = 0;
-                while (j < data.length) {
-                    
-                    if( j % 4 == 3 ) {
-                        j++;
-                    }
-                    
-                    binary_data += (data[j] % 2);
-                    
-                    j++;
-                }
-
-                // strip excess information
-                for( let p = binary_data.length; p > 0; --p ) {
-                    if( binary_data.charAt(p) == '1' ) {
-                        binary_data = binary_data.substring(0, p);
-                        break;
-                    }
-                }
-
-                let decoded_text = "";
-
-                //console.log(binary_data);
-
-                binary_data
-                    .match(/.{1,16}/g)
-                    .map(bin => decoded_text += String.fromCharCode(parseInt(bin, 2)));
-
-
-                //console.log(decoded_text);
-
-                document.getElementById("secret_message_output").innerText = decoded_text;
-            };
-
-            
-            img.src = URL.createObjectURL(input.files[0]);
-
-        }
-
-        function add_secret_message( message ) {
-            
-            const input = document.getElementById('image_input');
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            const img = new Image();
-            img.onload = function () {
-                canvas.width = img.width;
-                canvas.height = img.height;
-
-                context.drawImage(img, 0, 0);
-
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-
-                if( message.length > (data.length * 9 / 4 - 1)) {
-                    error_message_too_long();
-                    return;
-                }
-
-                let i = 0;
-                let j = 0;
-                while (i < message.length) {
-
-                    if( j % 4 == 3 ) {
-                        j++;
-                    }
-
-                    data[j] -= data[j] % 2 - parseInt(message.charAt(i));
-
-                    // assert data is written correctly
-                    if( (data[j] % 2) != parseInt(message.charAt(i))) {
-                        console.error("UH OH!");
-                        console.error("message not written correctly, data is " + data[j] + " and message code is " + message.charAt(i));
-                    }
-                    i++;
-                    j++;
-                }
-
-                // add a termination bit
-                if( j % 4 == 3 ) {
-                    j++;
-                }
-
-                if( data[j] % 2 == 0) {
-                    data[j]++;
-                }
-
-                j++;
-
-                // make the rest zero
-                for( j; j < data.length; j++ ) {
-                    if ( j % 4 == 3) {
-                        j++;
-                    }
-
-                    // make current number even
-                    data[j] -= (data[j] % 2) * 1;
-
-                }
-
-                context.putImageData(imageData, 0, 0);
-
-
-                const downloadLink = document.createElement('a');
-                downloadLink.href = canvas.toDataURL('image/png');
-                downloadLink.download = 'modified_image.png';
-                downloadLink.click();
-            };
-
-            img.src = URL.createObjectURL(input.files[0]);
-        }
-    </script>
+    <script src="./scripts/constants.js"></script>
+    <script src="./scripts/hideMessage.js"></script>
+    <script src="./scripts/retrieveHiddenMessage.js"></script>
 </body>
 </html>
