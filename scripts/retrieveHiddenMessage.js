@@ -102,13 +102,33 @@ function bin_to_mp3( secret_bin ) {
     //console.log("buffer: " + buffer);
     const blob = new Blob([buffer], { type: 'audio/mp3' });
     const blob_url = URL.createObjectURL(blob);
+
+    let audio_element = new Audio();
+    audio_element.src = blob_url;
+    document.body.appendChild(audio_element);
+    audio_element.onerror = function(e) {
+        console.error("error playing audio:", e);
+    };
+    audio_element.play().then(function() {
+        console.log("audio playback started");
+    }).catch(function(error) {
+        console.error("audio playback failed:", error);
+    });
+
+
+    //document.getElementById("secret-audio").src = blob_url;
+    //document.getElementById("secret-audio").play();
+    ///*
     const download_link = document.createElement('a');
     download_link.href = blob_url;
     download_link.download = "secret_audio.mp3";
     document.body.appendChild(download_link);
     download_link.click();
     document.body.removeChild(download_link);
+    //*/
     URL.revokeObjectURL(blob_url);
+
+    
 
 }
 
