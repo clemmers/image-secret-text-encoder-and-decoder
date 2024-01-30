@@ -36,38 +36,6 @@ function arrayBufferToBinary(arrayBuffer) {
 }
 
 
-/*
-
-function file_to_binary() {
-    const file_input = document.getElementById('file_input');
-
-    const file = file_input.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-            console.log("collected data, converting to binary");
-            const binary_data = message_to_binary(event.target.result);
-            console.log(TYPE_MP3 + binary_data);
-            let test = TYPE_MP3 + binary_data;
-            console.log(typeof(test));
-            console.log(test.length);
-            add_secret_message(test);
-        };
-
-        reader.onerror = function(e) {
-            console.log('error : ' + e.type);
-        };
-        console.log("collecting file data..");
-        reader.readAsBinaryString(file);
-    } else {
-        console.error("no file");
-    }
-}
-
-*/
-
 function message_to_binary(message) {
     return TYPE_UTF8 + (
         Array
@@ -179,7 +147,7 @@ function add_secret_message( message ) {
             }
 
             // make current number even
-            data[j] -= (data[j] % 2) * 1;
+            data[j] -= (data[j] % 2);
 
         }
 
