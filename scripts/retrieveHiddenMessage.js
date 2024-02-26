@@ -100,7 +100,7 @@ function bin_to_mp3( secret_bin ) {
     }
 
     //console.log("buffer: " + buffer);
-    const blob = new Blob([buffer], { type: 'audio/mp3' });
+    const blob = new Blob([buffer], { type: 'audio/mpeg' });
     const blob_url = URL.createObjectURL(blob);
 
     let audio_element = new Audio();
@@ -116,17 +116,13 @@ function bin_to_mp3( secret_bin ) {
     });
 
 
-    //document.getElementById("secret-audio").src = blob_url;
-    //document.getElementById("secret-audio").play();
-    ///*
     const download_link = document.createElement('a');
     download_link.href = blob_url;
     download_link.download = "secret_audio.mp3";
     document.body.appendChild(download_link);
     download_link.click();
     document.body.removeChild(download_link);
-    //*/
-    URL.revokeObjectURL(blob_url);
+    //URL.revokeObjectURL(blob_url);
 
     
 
