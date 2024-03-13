@@ -3,7 +3,7 @@
 
 
 function file_to_binary() {
-    const file_input = document.getElementById('file_input');
+    const file_input = document.getElementById('mp3_input');
 
     const file = file_input.files[0];
 

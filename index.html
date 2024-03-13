@@ -84,7 +84,7 @@
             <input type="file" id="mp3_input" accept=".mp3" style="display: none;">
     
             <button style="display: none;" id="encode_text_button" onclick="add_secret_message(message_to_binary(document.getElementById('secret_message_input').value))" disabled>Encode</button>
-            <button style="display: none;" id="encode_mp3_button" onclick="add_secret_message(message_to_binary(document.getElementById('secret_message_input').value))" disabled>Encode</button>
+            <button style="display: none;" id="encode_mp3_button" onclick="file_to_binary()" disabled>Encode</button>
         </div>
 
         <div id="decode_options" style="display: none;">
