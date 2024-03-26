@@ -1,4 +1,4 @@
-<h1 align="center">hide</h1>
+<h1 align="center">image secret message hider</h1>
 <p align="center"><strong>hide secret messages in images</strong>
 <br/>
 
