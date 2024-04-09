@@ -64,7 +64,7 @@
 </head>
 <body>
 
-    <h1>Image Encoder/Decoder</h1>
+    <h1>meow mrow maw</h1>
     <div id="encode_decode_buttons">
         <button onclick="show_encode_options()">Encode an Image</button>
         <button onclick="show_decode_options()">Decode an Image</button>
@@ -77,11 +77,11 @@
             
             <select id="encoding_type" onchange="toggle_input()">
                 <option value="" disabled selected>Select Encoding Type</option>
-                <option value="text">Text</option>
-                <option value="mp3">MP3</option>
+                <option value="text" disabled>Text</option>
+                <option value="file">File</option>
             </select>
             <textarea id="secret_message_input" cols="40" rows="5" style="display: none;"></textarea>
-            <input type="file" id="mp3_input" accept=".mp3" style="display: none;">
+            <input type="file" id="files_input" multiple style="display: none;">
     
             <button style="display: none;" id="encode_text_button" onclick="add_secret_message(message_to_binary(document.getElementById('secret_message_input').value))" disabled>Encode</button>
             <button style="display: none;" id="encode_mp3_button" onclick="file_to_binary()" disabled>Encode</button>
@@ -89,7 +89,7 @@
 
         <div id="decode_options" style="display: none;">
             <h2>Decode Options</h2>
-            <button onclick="decode_image()">Decode</button>
+            <button onclick="get_image_data()">Decode</button>
             <p>Secret Message: </p>
             <p id="secret_message_output"></p>
         </div>
@@ -97,7 +97,7 @@
 
     <script>
 
-        document.getElementById('mp3_input').addEventListener('change', function() {
+        document.getElementById('files_input').addEventListener('change', function() {
             document.getElementById('encode_mp3_button').disabled = false;
         });
 
@@ -114,14 +114,14 @@
             switch(document.getElementById("encoding_type").value) {
                 case "text":
                     document.getElementById("secret_message_input").style.display = "block";
-                    document.getElementById("mp3_input").style.display = "none";
+                    document.getElementById("files_input").style.display = "none";
                     document.getElementById('encode_mp3_button').style.display="none";
                     document.getElementById('encode_text_button').style.display="block";
                     document.getElementById('encode_text_button').disabled = false;
                     break;
-                case "mp3":
+                case "file":
                     document.getElementById("secret_message_input").style.display = "none";
-                    document.getElementById("mp3_input").style.display = "block";
+                    document.getElementById("files_input").style.display = "block";
                     document.getElementById('encode_mp3_button').style.display="block";
                     document.getElementById('encode_text_button').style.display="none";
                     break;
